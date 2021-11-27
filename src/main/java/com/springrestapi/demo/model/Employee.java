@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -25,22 +27,21 @@ public class Employee {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
 	public Long id;
 	
-	@Column(name = "name")
+	@NotNull(message = "Name should not be null")
 	public String name;
 	
-	@Column(name = "age")
-	public Long age;
+	
+	public Long age = 0L;
 
-	@Column(name = "location")
+
 	public String location;
 
-	@Column(name = "email")
+	@Email(message = "Please enter the valid email address")
 	public String email;
 
-	@Column(name = "department")
+	@NotNull(message = "Department should not be null")
 	public String department;
 	
 	@CreationTimestamp

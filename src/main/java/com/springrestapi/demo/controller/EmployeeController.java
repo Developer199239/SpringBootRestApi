@@ -2,7 +2,11 @@ package com.springrestapi.demo.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,29 +26,29 @@ public class EmployeeController {
 	private EmployeeService eService;
 	
 	@GetMapping("/employees")
-	public List<Employee> getEmployees() {
-		return eService.getEmployees();
+	public ResponseEntity<List<Employee>>getEmployees() {
+		return new ResponseEntity<List<Employee>>(eService.getEmployees(), HttpStatus.OK);
 	}
 
 	@GetMapping("/employees/{id}")
-	public Employee getEmployee(@PathVariable("id") Long id) {
-		return eService.getSingleEmployee(id);
+	public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
+		return new ResponseEntity<Employee>(eService.getSingleEmployee(id), HttpStatus.OK);
 	}
 
 	@PostMapping("/employees")
-	public Employee saveEmployee(@RequestBody Employee employee) {
-		return eService.saveEmployee(employee);
+	public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
+		return new ResponseEntity<>(eService.saveEmployee(employee), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("employees/{id}")
-	public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+	public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
 		employee.id = id;
-		return eService.updateEmployee(employee);
+		return new ResponseEntity<Employee>(eService.updateEmployee(employee),HttpStatus.OK);
 	}
 
 	@DeleteMapping("/employees")
-	public void deleteEmployee(@RequestParam("id") Long id) {
-		eService.deleteEmployee(id);
+	public ResponseEntity<HttpStatus> deleteEmployee(@RequestParam("id") Long id) {
+		return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 	}
 
 
