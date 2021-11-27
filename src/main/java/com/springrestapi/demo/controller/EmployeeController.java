@@ -37,7 +37,7 @@ public class EmployeeController {
 
 	@PostMapping("/employees")
 	public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
-		return new ResponseEntity<>(eService.saveEmployee(employee), HttpStatus.CREATED);
+		return new ResponseEntity<Employee>(eService.saveEmployee(employee), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("employees/{id}")
@@ -49,6 +49,26 @@ public class EmployeeController {
 	@DeleteMapping("/employees")
 	public ResponseEntity<HttpStatus> deleteEmployee(@RequestParam("id") Long id) {
 		return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/employees/filterByName")
+	public ResponseEntity<List<Employee>> getEmployeesByName(@RequestParam String name) {
+		return new ResponseEntity<List<Employee>>(eService.getEmployeesByName(name), HttpStatus.OK);
+	}
+	
+	@GetMapping("/employees/filterByNameAndLocation")
+	public ResponseEntity<List<Employee>> getEmployeesByNameAndLocation(@RequestParam String name, @RequestParam String location) {
+		return new ResponseEntity<List<Employee>>(eService.getEmployeesByNameAndLocation(name, location), HttpStatus.OK);
+	}
+	
+	@GetMapping("/employees/{name}/{location}")
+	public ResponseEntity<List<Employee>> getEmployeesByNameOrLocation(@PathVariable String name, @PathVariable String location) {
+		return new ResponseEntity<List<Employee>>(eService.getEmployeesByNameOrLocation(name, location), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/employees/delete/{name}")
+	public ResponseEntity<String> deleteEmployeeByName(@PathVariable String name) {
+		return new ResponseEntity<String>(eService.deleteEmployeeByName(name)+" deleted", HttpStatus.OK);
 	}
 
 
